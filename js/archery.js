@@ -13,16 +13,16 @@ cHeight = canvas.height;
 var countLife = 0;
 
 // ============================NET==========================
-const netWidth = 10;
+const netWidth = 15;
 const netHeight = cHeight;
 const net = {
   x: cWidth / 2 ,
   // x: cWidth / 2 - netWidth / 2,
   // x:400,
-  y: 180,
+  y: 480,
   width: netWidth,
   height: netHeight,
-  color: "black"
+  color: "blue"
 };
 
 function drawNet() {
@@ -133,10 +133,10 @@ var drawAimer = function () {
 
 
 var catImage = new Image();
-catImage.src = "../assets/images/cat.png";
+catImage.src = "../assets/images/shiba.png";
 
 var dogImage = new Image();
-dogImage.src = "../assets/images/dog1.png";
+dogImage.src = "../assets/images/pet.png";
 
 
 var drawcat={
@@ -148,10 +148,12 @@ var drawdog={
   x: 1050,
   y: 300,
   speed: 5,
+  width: 130,
+  height: 160,
 }
 var shootingCirc = {
   // x: 1120,
-  x:200,
+  x:220,
   y: groundPoint - 60,
   r: 100
 }
@@ -270,7 +272,7 @@ var drawCircles = function () {
 var drawCircles1 = function () {
 
   ctx.beginPath();
-  ctx.drawImage(dogImage, drawdog.x, drawdog.y, 130, 160);
+  ctx.drawImage(dogImage, drawdog.x, drawdog.y, drawdog.width, drawdog.height);
   ctx.beginPath();
   // ctx.arc(drawBackCirc1.x, drawBackCirc1.y, drawBackCirc1.r, 0, 2 * Math.PI);
   ctx.stroke();
@@ -279,7 +281,7 @@ var drawCircles1 = function () {
 
 var gameover = function(){
   ctx.font = "50px Comic Sans MS";
-  ctx.fillText(	"Game Over",
+  ctx.fillText(	"Cat Won!!!",
   (canvas.width / 2) - 100,
   50);
 }
@@ -315,7 +317,7 @@ var render = function () {
   // playerturn();
   // movecat();
   // movedog();
-switchPlayer();
+  switchPlayer();
 
 
 
@@ -324,15 +326,22 @@ switchPlayer();
   for (i = 0; i < arrows.length; i++) {
     arrows[i].drawArrow();
 
-  }
-  for (i = 0; i < arrows.length; i++) {
-    arrows[i].collision();
+    if(arrows[i].collisionnet()) {
+      break;
+    }
+    if(arrows[i].collisiondog()) {
+      break;
+    }
 
   }
   // for (i = 0; i < arrows.length; i++) {
-  //   arrows[i].collisiondog();
+  //   arrows[i].collisionnet();
+  //   // break;
 
   // }
+    // for (i = 0; i < arrows.length; i++) {
+    //   arrows[i].collisiondog();
+    // }
 
 
   drawScene();
@@ -344,9 +353,7 @@ switchPlayer();
 var main = function () {
   update();
   render();
-
   requestAnimationFrame(main);
-
 }
 
 

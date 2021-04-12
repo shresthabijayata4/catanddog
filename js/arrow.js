@@ -1,6 +1,6 @@
 // array of all arrows
 var arrows = [];
-
+var flag = true;
 // adjusts arrow speed
 var speedMod = 4;
 
@@ -11,11 +11,13 @@ var addArrow = function() {
 
 // Arrow prototype
 function Arrow() {
+  this.flag=true;
   this.x = shootingCirc.x;
   this.y = shootingCirc.y;
   this.arrowTipCoords = {
     x: this.x+20,
     y: this.y
+    
   };
   // left and right parts of the arrow head
   this.leftTipCoords = {
@@ -61,19 +63,50 @@ Arrow.prototype.drawArrow = function() {
 
 };
 
-Arrow.prototype.collision = function() {
+
+// shipPosition.x < asteriodPosition.x + asteriodPosition.width&&
+//         shipPosition.x+shipPosition.width > asteriodPosition.x &&
+//         shipPosition.y < asteriodPosition.y +asteriodPosition.height &&
+//         shipPosition.height+shipPosition.y > asteriodPosition.y
+
+Arrow.prototype.collisionnet = function() 
+{
+
+  var arrowTip = this.arrowTipCoords;
+  // var leftTip = this.leftTipCoords;
+  // var rightTip = this.rightTipCoords;
+  var i;
+if(arrowTip.x< net.x + net.width && arrowTip.x > net.x && arrowTip.y < net.y + net.height && arrowTip.y > net.y){
+  this.firing = false;
+  
+
+};
+
+Arrow.prototype.collisiondog = function() {
 
   var arrowTip = this.arrowTipCoords;
   // var leftTip = this.leftTipCoords;
   // var rightTip = this.rightTipCoords;
 
-if(arrowTip.x> net.x  && arrowTip.y> net.y && arrowTip){
+// if(arrowTip.x< drawdog.x + drawdog.width && arrowTip.x > drawdog.x && arrowTip.y < drawdog.y + drawdog.height && arrowTip.y > drawdog.y){
+if(arrowTip.x > drawdog.x && arrowTip.y > drawdog.y && arrowTip.x< drawdog.x + drawdog.width && arrowTip.y < drawdog.y + drawdog.height)  {
+  debugger;
+
   this.firing = false;
-  countLife = countLife + 1;
-  
-  if (countLife == 3) {
-    gameover();
+  if(flag){
+    countLife = countLife + 1;
   }
+  flag = false;
+  
+
+  console.log(countLife)
+  // debugger;
+  if (countLife == 5) {
+    // $('#alertModal').modal('show');
+    // gameOver();
+  }
+  return true;
+}
 }
 
 };
@@ -83,14 +116,21 @@ if(arrowTip.x> net.x  && arrowTip.y> net.y && arrowTip){
 
 
 Arrow.prototype.fireArrow = function() {
+  
+  flag=true;
+  var audio = new Audio("assets/images/Arrowthrow.mp3");
+        audio.play();
   if (mousePos && !this.firing) {
     this.speed = Math.min(shootingCirc.r,
                  distBetween(shootingCirc, mousePos)) / speedMod;
     this.velX = Math.cos(angleBetween(mousePos, shootingCirc))*this.speed;
     this.velY = Math.sin(angleBetween(mousePos, shootingCirc))*this.speed;
     this.firing = true;
-    addArrow();
+   
+      addArrow();
+    
   }
+
 }
 
 
