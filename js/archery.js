@@ -19,10 +19,10 @@ const net = {
   x: cWidth / 2 ,
   // x: cWidth / 2 - netWidth / 2,
   // x:400,
-  y: 480,
+  y: 180,
   width: netWidth,
   height: netHeight,
-  color: "blue"
+  color: "black"
 };
 
 function drawNet() {
@@ -155,7 +155,8 @@ var shootingCirc = {
   // x: 1120,
   x:220,
   y: groundPoint - 60,
-  r: 100
+  r: 100,
+  status: 1,
 }
 var drawBackCirc = {
   x: shootingCirc.x,

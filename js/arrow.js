@@ -11,12 +11,14 @@ var addArrow = function() {
 
 // Arrow prototype
 function Arrow() {
-  this.flag=true;
+
   this.x = shootingCirc.x;
   this.y = shootingCirc.y;
+  this.status = shootingCirc.status
   this.arrowTipCoords = {
     x: this.x+20,
-    y: this.y
+    y: this.y,
+    status : this.status,
     
   };
   // left and right parts of the arrow head
@@ -80,6 +82,7 @@ if(arrowTip.x< net.x + net.width && arrowTip.x > net.x && arrowTip.y < net.y + n
   this.firing = false;
   
 
+}
 };
 
 Arrow.prototype.collisiondog = function() {
@@ -87,32 +90,43 @@ Arrow.prototype.collisiondog = function() {
   var arrowTip = this.arrowTipCoords;
   // var leftTip = this.leftTipCoords;
   // var rightTip = this.rightTipCoords;
-
+if(arrowTip.status === 1){
 // if(arrowTip.x< drawdog.x + drawdog.width && arrowTip.x > drawdog.x && arrowTip.y < drawdog.y + drawdog.height && arrowTip.y > drawdog.y){
-if(arrowTip.x > drawdog.x && arrowTip.y > drawdog.y && arrowTip.x< drawdog.x + drawdog.width && arrowTip.y < drawdog.y + drawdog.height)  {
-  debugger;
-
-  this.firing = false;
-  if(flag){
-    countLife = countLife + 1;
-  }
-  flag = false;
+  if(arrowTip.x > drawdog.x && arrowTip.y > drawdog.y && arrowTip.x< drawdog.x + drawdog.width && arrowTip.y < drawdog.y + drawdog.height)  {
+    debugger;
+    // ctx.clearRect(arrowTip.x, arrowTip.y,);
+    var audio = new Audio("assets/images/laugh1.mp3");
+    audio.play();
+    this.firing = false;
+    if(flag){
+      // flag = false;
+     
+      countLife = countLife + 1;
+     
+      arrowTip.status = 0;
+    }
   
+   
+    console.log(countLife)
+    // debugger;
+    if (countLife == 5) {
 
-  console.log(countLife)
-  // debugger;
-  if (countLife == 5) {
-    // $('#alertModal').modal('show');
-    // gameOver();
+    alert('Cat won!! want to restart?');
+    window.location.reload();
+ 
+    }
+    return true;
   }
-  return true;
-}
 }
 
-};
+}
 
 
 
+
+var cleararrow=function(){
+  ctx.clearRect(arrowTip.x, arrowTip.y);
+}
 
 
 Arrow.prototype.fireArrow = function() {
@@ -163,3 +177,4 @@ Arrow.prototype.calcArrowHead = function() {
   this.rightTipCoords.x = arrowTip.x - 3*Math.sin(angle+Math.PI/4);
   this.rightTipCoords.y = arrowTip.y - 3*Math.cos(angle+Math.PI/4);
 };
+
